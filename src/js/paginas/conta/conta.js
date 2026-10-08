@@ -1,42 +1,79 @@
-import usuarios from '../dadosMockados/usuarios.js'
-import { carregar, salvar, remover } from '../utils/armazenamento.js'
+import './conta.css'
+import { usuarioLogado, entrar, sair, carregarFavoritos } from '../../sessao/sessao.js'
+import { todosOsEventos } from '../../dados/eventos.js'
+import { cartao } from '../resultados/resultados.js'
+import { escapar } from '../../utils/formatar.js'
 
-const CHAVE_SESSAO = 'agenda:sessao'
-
-function usuarioLogado() {
-  return carregar(CHAVE_SESSAO, null)
-}
-
-// Devolve o usuário se e-mail e senha conferem, ou null
-function entrar(email, senha) {
-  const usuario = usuarios.find(u => u.email === email.trim().toLowerCase() && u.senha === senha)
-  if (!usuario) return null
-  const sessao = { email: usuario.email, nome: usuario.nome }
-  salvar(CHAVE_SESSAO, sessao)
-  return sessao
-}
-
-function sair() {
-  remover(CHAVE_SESSAO)
-}
-
-// Favoritos ficam guardados por e-mail, para não sumirem ao sair da conta
-function carregarFavoritos(email) {
-  return carregar(`agenda:favoritos:${email}`, [])
-}
-
-function ehFavorito(id) {
+function conta(app) {
   const sessao = usuarioLogado()
-  return sessao ? carregarFavoritos(sessao.email).includes(id) : false
+  if (sessao) {
+    telaLogado(app, sessao)
+  } else {
+    telaLogin(app)
+  }
 }
 
-function alternarFavorito(id) {
-  const sessao = usuarioLogado()
-  if (!sessao) return false
+function telaLogin(app) {
+  app.innerHTML = `
+    <form class="form-login" novalidate>
+      <h1>Entrar</h1>
+      <p class="conta-explicacao">Entre para salvar eventos e publicar os seus.</p>
+      <div id="erro-login" role="alert"></div>
+      <label for="email">E-mail</label>
+      <input id="email" name="email" type="email" autocomplete="username">
+      <label for="senha">Senha</label>
+      <input id="senha" name="senha" type="password" autocomplete="current-password">
+      <button type="submit">Entrar</button>
+      <p class="conta-dica">Para testar: aluno@fatec.sp.gov.br / 123456</p>
+    </form>`
+
+  document.querySelector(".form-login").addEventListener("submit", (e) => {
+    e.preventDefault()
+    const email = document.getElementById("email").value
+    const senha = document.getElementById("senha").value
+    const erro = document.getElementById("erro-login")
+    if (!email || !senha) {
+      erro.innerHTML = `<p class="mensagem-erro">Preencha e-mail e senha.</p>`
+      return
+    }
+    if (!entrar(email, senha)) {
+      erro.innerHTML = `<p class="mensagem-erro">E-mail ou senha incorretos. Tente de novo.</p>`
+      document.getElementById("senha").value = ""
+      return
+    }
+    conta(app)
+    window.dispatchEvent(new Event("tela-atualizada"))
+  })
+}
+
+function telaLogado(app, sessao) {
   const favoritos = carregarFavoritos(sessao.email)
-  const novos = favoritos.includes(id) ? favoritos.filter(f => f !== id) : [...favoritos, id]
-  salvar(`agenda:favoritos:${sessao.email}`, novos)
-  return true
+  const lista = todosOsEventos().filter(ev => favoritos.includes(ev.id))
+  app.innerHTML = `
+    <div class="conta">
+      <div class="conta-usuario">
+        <i data-lucide="circle-user-round"></i>
+        <div>
+          <h1>Olá, ${escapar(sessao.nome)}</h1>
+          <p>${escapar(sessao.email)}</p>
+        </div>
+      </div>
+      <h2>Meus favoritos</h2>
+      ${lista.length === 0
+        ? `<p class="conta-explicacao">Você ainda não salvou nenhum evento.</p>`
+        : lista.map(cartao).join("")}
+      <button id="btn-sair" class="botao-secundario">Sair da conta</button>
+    </div>`
+
+  document.getElementById("btn-sair").addEventListener("click", () => {
+    sair()
+    conta(app)
+  })
 }
 
-export { usuarioLogado, entrar, sair, carregarFavoritos, ehFavorito, alternarFavorito }
+export default {
+  url: '#conta',
+  label: 'conta',
+  icon: "user-round",
+  pagina: conta
+};
