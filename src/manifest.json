@@ -1,0 +1,13 @@
+{
+  "name": "Agenda Cultural",
+  "short_name": "Agenda",
+  "start_url": "index.html",
+  "display": "standalone",
+  "icons": [{
+    "src": "assets/imgs/logo.png",
+    "sizes": "512x512",
+    "type": "image/png"
+  }],
+  "background_color": "#7b2cbf",
+  "theme_color": "#7b2cbf"
+}

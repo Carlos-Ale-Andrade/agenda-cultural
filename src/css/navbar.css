@@ -1,0 +1,16 @@
+/* Navbar provisória. Responsável: Tabata */
+.navbar-bottom{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    max-width: 440px;
+    background-color: white;
+    border-top: 1px solid #ccc;
+}
+.navbar{
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    list-style-type: none;
+    padding: 8px;
+}
