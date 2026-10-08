@@ -1,0 +1,20 @@
+.form-publicar{
+    display: flex;
+    flex-direction: column;
+    gap: var(--espaco-p);
+}
+.form-publicar label{
+    margin-top: var(--espaco-p);
+    font-weight: 500;
+}
+.erro-campo{
+    color: var(--cor-erro);
+    min-height: 1em;
+}
+.campo-invalido{
+    border-color: var(--cor-erro);
+    background-color: var(--cor-erro-fundo);
+}
+.form-publicar button{
+    margin-top: var(--espaco-m);
+}
