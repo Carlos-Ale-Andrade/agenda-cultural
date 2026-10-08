@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Relatório · Agenda Cultural</title>
+<style>
+  @page { size: A4; margin: 16mm 16mm 16mm 16mm; }
+  body { font-family: "DejaVu Sans", Arial, sans-serif; font-size: 9.6pt; line-height: 1.38; color: #222; }
+  h1 { font-size: 17pt; margin: 0 0 2px; color: #4a1a7a; }
+  .sub { color: #666; margin: 0 0 10px; }
+  h2 { font-size: 11.5pt; color: #4a1a7a; border-bottom: 1px solid #d6cbe6; padding-bottom: 2px; margin: 12px 0 5px; }
+  p { margin: 0 0 5px; }
+  ul, ol { margin: 0 0 5px 18px; padding: 0; }
+  li { margin-bottom: 2px; }
+  table { border-collapse: collapse; width: 100%; margin: 4px 0 6px; font-size: 8.8pt; }
+  th, td { border: 1px solid #cfc3e0; padding: 3px 6px; text-align: left; vertical-align: top; }
+  th { background: #efe5fa; }
+  code, pre { font-family: "DejaVu Sans Mono", monospace; font-size: 8.2pt; }
+  pre { background: #f6f3fa; padding: 6px 8px; margin: 3px 0 6px; line-height: 1.3; }
+  .lacuna { background: #fff4e0; color: #8a5a00; padding: 0 3px; }
+  .decisao b { color: #4a1a7a; }
+  .grade { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 6px; }
+  h2 { break-after: avoid; }
+  figure { break-inside: avoid; margin: 0; text-align: center; font-size: 8pt; color: #555; }
+  figure img { width: 100%; border: 1px solid #ccc; }
+  .quebra { page-break-before: always; }
+</style>
+</head>
+<body>
+
+<h1>Agenda Cultural</h1>
+<p class="sub">Desafio 1 · O mesmo esqueleto, outro negócio · Relatório de construção<br>
+Integrantes: Carlos, Gabriel, Tabata · Repositório: <a href="https://github.com/Carlos-Ale-Andrade/agenda-cultural">github.com/Carlos-Ale-Andrade/agenda-cultural</a></p>
+
+<h2>R1 · O problema e quem usa</h2>
+<p><b>Pergunta que o app responde:</b> "O que tem para fazer na cidade nesta semana, quando, onde e quanto custa?" A informação sobre shows, peças e exposições fica espalhada em cartazes, perfis de redes sociais e grupos de mensagem. O app junta tudo em uma lista que dá para filtrar.</p>
+<ol>
+  <li><b>Estudante sem plano para o fim de semana:</b> abre o app na sexta, toca em "Música", ordena por "Menor preço" e acha um show gratuito na praça no sábado.</li>
+  <li><b>Pessoa que quer um programa específico:</b> busca por "teatro", abre o detalhe da peça, vê data, horário, local e preço, e salva nos favoritos para não esquecer.</li>
+  <li><b>Organizador de um sarau na biblioteca:</b> entra na conta e publica o evento. Se alguém já publicou o mesmo evento (mesmo nome, data e local), o app avisa e não duplica.</li>
+</ol>
+
+<h2>R2 · O mapa de equivalência</h2>
+<p>Cada conceito do KiOferta e o que ele virou na Agenda Cultural:</p>
+<table>
+  <tr><th>No KiOferta</th><th>Na Agenda Cultural</th><th>Arquivo</th></tr>
+  <tr><td>Produto em promoção</td><td>Evento cultural</td><td><code>dadosMockados/eventos.js</code></td></tr>
+  <tr><td>Mercado onde está a oferta</td><td>Local do evento (teatro, praça, biblioteca)</td><td>campo <code>local</code></td></tr>
+  <tr><td>Preço na etiqueta / distância</td><td>Data, horário e preço do ingresso ("Gratuito" quando 0)</td><td>campos <code>data</code>, <code>hora</code>, <code>preco</code></td></tr>
+  <tr><td>Categorias (Mercearia, Carnes, Bebidas...)</td><td>Categorias (Música, Teatro, Exposição, Cinema, Dança, Literatura)</td><td><code>dados/eventos.js</code></td></tr>
+  <tr><td>Radar de Promoções (buscar)</td><td>Início, com busca e categorias</td><td><code>paginas/inicio/</code></td></tr>
+  <tr><td>Lista de produtos</td><td>Resultados, com ordenação e estado vazio</td><td><code>paginas/resultados/</code></td></tr>
+  <tr><td>Mapa do produto escolhido</td><td>Detalhe do evento</td><td><code>paginas/detalhe/</code></td></tr>
+  <tr><td>Enviar promoção</td><td>Publicar evento</td><td><code>paginas/publicar/</code></td></tr>
+  <tr><td>Favorito / Conta</td><td>Conta com login, com os favoritos dentro</td><td><code>paginas/conta/</code>, <code>sessao/sessao.js</code></td></tr>
+  <tr><td>(não existia)</td><td>Rota inexistente (404)</td><td><code>paginas/naoEncontrada/</code></td></tr>
+</table>
+
+<h2>R3 · A estrutura</h2>
+<pre>src/
+├── index.html               página única: navbar embaixo e &lt;main id="app"&gt;
+├── css/
+│   ├── tokens.css           cores, espaços e bordas usados por todo o app
+│   ├── base.css             reset, botões, campos e mensagens de erro/aviso/vazio
+│   └── navbar.css           barra de navegação inferior
+└── js/
+    ├── main.js              roteador: lê o hash, separa o parâmetro e chama a tela
+    ├── rotas/rotas.js       lista das telas; também monta a navbar
+    ├── navbar/navbar.js     desenha a navbar a partir das rotas e marca a atual
+    ├── sessao/sessao.js     login, sair, usuário logado e favoritos por usuário
+    ├── dados/eventos.js     junta mockados + publicados, busca por id, checa repetido
+    ├── dadosMockados/       eventos.js (8 eventos) e usuarios.js (2 usuários de teste)
+    ├── utils/               armazenamento.js (localStorage) e formatar.js (data, preço, escapar)
+    └── paginas/             uma pasta por tela, cada uma com seu .js e seu .css
+        inicio/  resultados/  detalhe/  publicar/  conta/  naoEncontrada/</pre>
+
+<h2>R4 · Três decisões e um descartado</h2>
+<p class="decisao"><b>1. O parâmetro vai dentro do hash (<code>#detalhe/3</code>, <code>#resultados/Música</code>).</b> No KiOferta o produto era passado como objeto de uma função para outra e se perdia quando o hash mudava. Com o id no endereço, o roteador consegue redesenhar qualquer tela sozinho, o botão voltar funciona e os cartões viram links simples.</p>
+<p class="decisao"><b>2. Sessão, favoritos e eventos publicados ficam no <code>localStorage</code>.</b> O trabalho pede um app sem backend. Os usuários de teste ficam em um arquivo mockado, e o módulo <code>sessao.js</code> esconde esse detalhe das telas. Se um dia existir um servidor, só esse módulo e o <code>dados/eventos.js</code> mudam.</p>
+<p class="decisao"><b>3. Cada tela tem a própria pasta e o próprio CSS, todos usando <code>tokens.css</code>.</b> Assim cada integrante mexe só nos seus arquivos e as cores continuam iguais em todo o app. O <code>rotas.js</code> e o <code>navbar.js</code> são o ponto de encontro e só mudam com o grupo combinado.</p>
+<p class="decisao"><b>Descartado: uma tela separada de Favoritos, como no KiOferta.</b> Chegamos a fazer essa tela, mas favoritar só faz sentido para quem está logado, e o enunciado pede seis telas. Por isso os favoritos foram para dentro da Conta: quem não entrou vê o convite para fazer login, e quem entrou vê a lista.</p>
+
+<h2>R5 · A divisão de tarefas</h2>
+<table>
+  <tr><th>Integrante</th><th>Responsabilidade</th><th>Entregáveis</th><th>Commits</th></tr>
+  <tr><td>Carlos</td><td>Dados e descoberta</td><td>Dados mockados, tela de início e tela de resultados, com busca e ordenação</td><td><span class="lacuna">[nº]</span></td></tr>
+  <tr><td>Gabriel</td><td>Detalhe e publicação</td><td>Tela de detalhe, formulário de publicar, validações e aviso de registro repetido</td><td><span class="lacuna">[nº]</span></td></tr>
+  <tr><td>Tabata</td><td>Conta e fundação</td><td>tokens.css e base.css, módulo de sessão, tela de conta e tela de rota inexistente</td><td><span class="lacuna">[nº]</span></td></tr>
+</table>
+
+<h2>R6 · Duas dificuldades reais</h2>
+<p><b>1. A tela abria toda em branco.</b><br>
+<i>O erro:</i> ao abrir o <code>index.html</code> pelo Live Server, nada aparecia.
+<i>O que achamos que era:</i> caminho errado do script, CSS quebrado, problema do navegador ou erro nas telas novas. Testamos cada hipótese e nenhuma resolveu.
+<i>O que era de fato:</i> o console (F12) mostrava <code>Failed to resolve module specifier "lucide"</code>. O <code>import ... from 'lucide'</code> só funciona passando pelo Vite, que sabe procurar o pacote dentro do <code>node_modules</code>. Passamos a usar <code>npm run dev</code> e colocamos <code>base: './'</code> no <code>vite.config.ts</code> para a pasta <code>dist/</code> funcionar em qualquer lugar.</p>
+<p><b>2. Clicar no cartão não abria o detalhe.</b><br>
+<i>O erro:</i> o clique mostrava "Escolha um produto." em vez do evento.
+<i>O que achamos que era:</i> que o clique não estava registrado. Mas o <code>console.log</code> mostrou que estava.
+<i>O que era de fato:</i> eram dois problemas. O cartão não tinha o atributo <code>data-nome</code>, então o <code>find</code> devolvia <code>undefined</code>. E, mesmo corrigindo isso, a tela trocava o hash para <code>#mapa</code> depois de desenhar, o roteador redesenhava a tela sem o evento e o resultado era apagado. A solução foi colocar o id no hash (decisão 1).</p>
+<p>As outras seis dificuldades, com todas as tentativas, estão em <code>docs/diario-de-bordo.md</code>: ícones que sumiam, npm travado, fuso horário na validação da data, preço vindo como texto, HTML digitado pelo usuário e o formulário que não limpava.</p>
+
+<h2>R7 · O que ficou de fora</h2>
+<ul>
+  <li><b>O login não é seguro.</b> E-mails e senhas de teste estão escritos no código (<code>usuarios.js</code>) e não existe cadastro. Para ser de verdade, precisaria de um servidor, e o trabalho pede um app sem backend.</li>
+  <li><b>Os eventos publicados ficam só no aparelho de quem publicou.</b> Outro celular não vê esses eventos, pelo mesmo motivo: não tem banco de dados.</li>
+  <li><b>Não dá para editar nem excluir</b> um evento publicado.</li>
+  <li><b>Não tem mapa nem distância até o local.</b> O KiOferta também deixou o mapa para depois. Preferimos terminar as seis telas.</li>
+  <li><b>Não testamos em um celular Android de verdade.</b> Testamos no navegador em modo celular (360px). O Capacitor está configurado, mas o APK não foi gerado.</li>
+  <li><b>O arquivo final ficou grande (cerca de 550 kB)</b> porque importamos todos os ícones do Lucide, do mesmo jeito que o KiOferta faz.</li>
+</ul>
+
+<h2>Capturas (360px)</h2>
+<div class="grade">
+  <figure><img src="capturas/01-inicio.png"><figcaption>1. Início</figcaption></figure>
+  <figure><img src="capturas/02-resultados.png"><figcaption>2. Resultados (ordenação)</figcaption></figure>
+  <figure><img src="capturas/03-detalhe.png"><figcaption>3. Detalhe</figcaption></figure>
+  <figure><img src="capturas/04-publicar.png"><figcaption>4. Publicar</figcaption></figure>
+  <figure><img src="capturas/05-conta.png"><figcaption>5. Conta (logado)</figcaption></figure>
+  <figure><img src="capturas/06-rota-inexistente.png"><figcaption>6. Rota inexistente</figcaption></figure>
+  <figure><img src="capturas/08-login-erro.png"><figcaption>Erro de login</figcaption></figure>
+  <figure><img src="capturas/07-busca-vazia.png"><figcaption>Busca sem resultado</figcaption></figure>
+</div>
+
+</body>
+</html>
