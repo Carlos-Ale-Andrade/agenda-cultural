@@ -1,0 +1,42 @@
+.resultados-topo{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--cor-texto-suave);
+    margin-bottom: var(--espaco-m);
+}
+.resultados-topo select{
+    margin-left: var(--espaco-p);
+}
+.cartao-evento{
+    display: flex;
+    align-items: center;
+    gap: var(--espaco-m);
+    margin-bottom: var(--espaco-m);
+    padding: var(--espaco-m);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio);
+    color: inherit;
+    text-decoration: none;
+}
+.cartao-data{
+    background-color: var(--cor-primaria);
+    color: white;
+    font-weight: bold;
+    padding: 8px;
+    border-radius: var(--raio);
+}
+.cartao-info{
+    flex: 1;
+}
+.cartao-info h3{
+    font-size: 1rem;
+}
+.cartao-info p{
+    color: var(--cor-texto-suave);
+    font-size: 0.9rem;
+}
+.cartao-preco{
+    font-weight: bold;
+    color: var(--cor-primaria);
+}
