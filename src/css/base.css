@@ -1,1 +1,77 @@
-/* Reset e estilos gerais. Responsável: Tabata */
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  font-family: var(--fonte);
+  color: var(--cor-texto);
+  background-color: var(--cor-fundo);
+  max-width: 440px;
+  margin: 0 auto;
+  height: 100dvh;
+}
+
+#app{
+  padding: var(--espaco-m);
+  padding-bottom: calc(var(--altura-navbar) + var(--espaco-g));
+}
+
+h1{
+  font-size: 1.5rem;
+  margin-bottom: var(--espaco-m);
+}
+
+a{
+  color: var(--cor-primaria);
+}
+
+button{
+  background-color: var(--cor-primaria);
+  color: white;
+  border: none;
+  border-radius: var(--raio);
+  padding: var(--espaco-m);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.botao-secundario{
+  background-color: white;
+  color: var(--cor-primaria);
+  border: 1px solid var(--cor-primaria);
+}
+
+input,
+select,
+textarea{
+  font: inherit;
+  padding: 8px;
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio);
+}
+
+/* mensagens usadas em várias telas */
+.mensagem-erro{
+  color: var(--cor-erro);
+  background-color: var(--cor-erro-fundo);
+  padding: var(--espaco-m);
+  border-radius: var(--raio);
+}
+.mensagem-aviso{
+  color: var(--cor-aviso);
+  background-color: var(--cor-aviso-fundo);
+  padding: var(--espaco-m);
+  border-radius: var(--raio);
+}
+.estado-vazio{
+  text-align: center;
+  color: var(--cor-texto-suave);
+  padding: var(--espaco-g) var(--espaco-m);
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco-m);
+  align-items: center;
+}

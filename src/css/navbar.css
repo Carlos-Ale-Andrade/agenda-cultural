@@ -1,16 +1,35 @@
 /* Navbar provisória. Responsável: Tabata */
 .navbar-bottom{
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: fixed;
     bottom: 0;
     width: 100%;
     max-width: 440px;
-    background-color: white;
-    border-top: 1px solid #ccc;
+    height: var(--altura-navbar);
+    background-color: var(--cor-fundo);
+    border-top: 1px solid var(--cor-borda);
 }
+
 .navbar{
     display: flex;
+    align-items: center;
     justify-content: center;
-    gap: 40px;
     list-style-type: none;
-    padding: 8px;
+    gap: 40px;
+}
+.navbar-item{
+    text-decoration: none;
+    color: var(--cor-texto-suave);
+}
+.navbar-item__icon{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 0.85rem;
+}
+.navbar-item:hover,
+.navbar-item--ativo{
+    color: var(--cor-primaria);
 }

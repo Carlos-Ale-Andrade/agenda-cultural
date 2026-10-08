@@ -1,1 +1,22 @@
-/* Tokens de cor, espaço e borda. Responsável: Tabata */
+/* Tokens: cores, espaçamentos e bordas usados por todas as telas */
+:root{
+  --cor-primaria: #7b2cbf;
+  --cor-primaria-clara: #efe5fa;
+  --cor-texto: #222222;
+  --cor-texto-suave: #6b6b6b;
+  --cor-borda: #d6cbe6;
+  --cor-fundo: #ffffff;
+  --cor-erro: #c62828;
+  --cor-erro-fundo: #fdecea;
+  --cor-aviso: #8a5a00;
+  --cor-aviso-fundo: #fff4e0;
+  --cor-sucesso: #2e7d32;
+
+  --espaco-p: 6px;
+  --espaco-m: 10px;
+  --espaco-g: 20px;
+
+  --raio: 6px;
+  --altura-navbar: 60px;
+  --fonte: system-ui, sans-serif;
+}
