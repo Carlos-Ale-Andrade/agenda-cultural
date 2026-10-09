@@ -13,7 +13,7 @@ App de celular para descobrir os eventos culturais da cidade (shows, teatro, exp
 | Integrante | GitHub | Responsabilidade | Commits |
 |---|---|---|---|
 | Carlos | [Carlos-Ale-Andrade](https://github.com/Carlos-Ale-Andrade) | Dados e descoberta: esqueleto, dados mockados, tela de início, tela de resultados, relatório | 6 |
-| Gabriel | [GenezisDev](https://github.com/GenezisDev) | Detalhe e publicação: tela de detalhe, formulário de publicar e validações, CSS base (tokens, base e navbar) | 3 |
+| Gabriel | [GenezisDev](https://github.com/GenezisDev) | Detalhe e publicação: tela de detalhe, formulário de publicar e validações, CSS base (tokens, base e navbar) | 3 |.
 | Tabata | [tabatachferri](https://github.com/tabatachferri) | Conta e fundação: módulo de sessão, usuários de teste, conta, rota inexistente e funções do `dados/eventos.js` | 8 |
 
 ## Como rodar
